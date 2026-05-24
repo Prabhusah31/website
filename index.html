@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prabhu Sah | Supreme Political Portal</title>
+    <style>
+        :root {
+            --primary: #b30000;
+            --primary-hover: #e60000;
+            --secondary: #1a252f;
+            --dark-surface: #0f172a;
+            --light: #f8f9fa;
+            --text: #1e293b;
+            --smooth: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --glow: 0 0 25px rgba(179,0,0,0.35);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { color: var(--text); background: #ffffff; line-height: 1.6; overflow-x: hidden; }
+
+        /* Continuous Interactive Kinetic Canvas Background */
+        .ambient-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; pointer-events: none; overflow: hidden;
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+        }
+        .fluid-orb {
+            position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(179,0,0,0.04) 0%, rgba(255,255,255,0) 70%);
+            animation: moveOrb 25s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 800px; height: 800px; top: -200px; left: -200px; }
+        .orb-2 { width: 600px; height: 600px; bottom: -100px; right: -100px; animation-duration: 18s; background: radial-gradient(circle, rgba(26,37,47,0.05) 0%, rgba(255,255,255,0) 70%); }
+        @keyframes moveOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 50px) scale(1.1); }
+        }
+
+        /* Fixed Premium Glassmorphism Navigation */
+        nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 4px 30px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.4); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; }
+        .logo a { font-size: 26px; font-weight: 800; color: var(--secondary); text-decoration: none; letter-spacing: -1px; transition: color 0.3s; }
+        .logo a span { color: var(--primary); }
+        
+        .nav-links { display: flex; list-style: none; gap: 8px; background: rgba(15,23,42,0.04); padding: 6px; border-radius: 30px; }
+        .nav-links button { 
+            background: none; border: none; cursor: pointer; font-size: 15px; color: var(--secondary); font-weight: 600; 
+            padding: 8px 22px; border-radius: 20px; transition: all 0.4s var(--smooth); position: relative;
+        }
+        .nav-links button:hover { color: var(--primary); }
+        .nav-links button.active { background: #ffffff; color: var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+
+        /* Asynchronous State Master Wrappers */
+        .page-section { 
+            display: none; opacity: 0; max-width: 1200px; margin: 0 auto; padding: 60px 20px;
+            transform: scale(0.98) translateY(20px); transition: all 0.6s var(--smooth);
+        }
+        .page-section.active-pane { display: block; opacity: 1; transform: scale(1) translateY(0); }
+
+        /* ------------------------------------------------------------- */
+        /* Hero View & Magnetic Elastic Image Interactions               */
+        /* ------------------------------------------------------------- */
+        .hero { display: flex; align-items: center; justify-content: space-between; gap: 60px; padding-top: 30px; }
+        .hero-content { flex: 1.2; }
+        .badge-interactive { background: linear-gradient(90deg, #ffe6e6, #fff0f0); color: var(--primary); padding: 6px 18px; border-radius: 30px; font-weight: 700; font-size: 12px; display: inline-block; margin-bottom: 25px; border: 1px solid rgba(179,0,0,0.15); text-transform: uppercase; letter-spacing: 1px; }
+        .hero h1 { font-size: 64px; color: var(--secondary); line-height: 1.05; margin-bottom: 20px; letter-spacing: -2px; font-weight: 800; }
+        
+        /* Interactive Tab Cards Engine */
+        .interactive-tabs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 35px 0; }
+        .tab-trigger-card { 
+            background: rgba(255,255,255,0.7); padding: 20px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.04); 
+            text-align: left; cursor: pointer; transition: all 0.4s var(--smooth);
+        }
+        .tab-trigger-card:hover { background: #ffffff; transform: translateY(-4px); box-shadow: 0 12px 25px rgba(0,0,0,0.05); border-color: var(--primary); }
+        .tab-trigger-card strong { color: var(--primary); display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .tab-trigger-card p { font-size: 16px; font-weight: 700; color: var(--secondary); }
+
+        /* Elastic Image Frames */
+        .hero-image { flex: 0.8; display: flex; justify-content: center; }
+        .interactive-frame {
+            position: relative; width: 100%; max-width: 380px; aspect-ratio: 1 / 1.25;
+            border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            transition: all 0.5s var(--smooth); background: var(--secondary);
+        }
+        .interactive-frame::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.7)); z-index: 3; pointer-events: none;
+        }
+        .interactive-frame:hover { transform: translateY(-10px) scale(1.02); box-shadow: var(--glow); }
+        .interactive-frame img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 2; transition: transform 0.7s var(--smooth); }
+        .interactive-frame:hover img { transform: scale(1.06); }
+
+        /* Premium Kinetic Buttons */
+        .kinetic-btn { 
+            display: inline-flex; align-items: center; justify-content: center; background: var(--secondary); color: white; 
+            padding: 16px 40px; border-radius: 30px; text-decoration: none; font-weight: 700; border: none; cursor: pointer; 
+            box-shadow: 0 10px 25px rgba(26,37,47,0.15); transition: all 0.4s var(--smooth); position: relative; overflow: hidden;
+        }
+        .kinetic-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.6s ease;
+        }
+        .kinetic-btn:hover::before { left: 100%; }
+        .kinetic-btn:hover { background: var(--primary); transform: translateY(-4px); box-shadow: var(--glow); }
+        .kinetic-btn:active { transform: translateY(-1px); }
+
+        /* ------------------------------------------------------------- */
+        /* Academic Interactive Reveal Matrices                          */
+        /* ------------------------------------------------------------- */
+        .section-title { text-align: center; font-size: 40px; color: var(--secondary); margin-bottom: 50px; font-weight: 800; letter-spacing: -1px; }
+        .section-title span { color: var(--primary); }
+        
+        .academic-mesh { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .mesh-card { 
+            background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); padding: 40px 30px; border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.5); text-align: center; transition: all 0.4s var(--smooth); position: relative;
+        }
+        .mesh-card::after {
+            content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 2px;
+            background: linear-gradient(135deg, transparent, transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude; transition: all 0.4s;
+        }
+        .mesh-card:hover { transform: translateY(-8px); background: #ffffff; box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
+        .mesh-card:hover::after { background: linear-gradient(135deg, var(--primary), transparent); }
+        .mesh-card .badge-icon { width: 70px; height: 70px; background: #ffe6e6; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 20px; transition: all 0.4s var(--smooth); }
+        .mesh-card:hover .badge-icon { background: var(--primary); color: white; transform: rotateY(180deg); }
+
+        /* ------------------------------------------------------------- */
+        /* Kinetic Experience Timeline                                   */
+        /* ------------------------------------------------------------- */
+        .timeline-container { position: relative; max-width: 900px; margin: 0 auto; padding: 20px 0; }
+        .timeline-container::before { content: ''; position: absolute; width: 6px; background: rgba(15,23,42,0.05); top: 0; bottom: 0; left: 40px; border-radius: 3px; }
+        .timeline-row { position: relative; margin-bottom: 40px; padding-left: 85px; opacity: 0; transform: translateY(30px); animation: nodeReveal 0.6s var(--smooth) forwards; }
+        @keyframes nodeReveal { to { opacity: 1; transform: translateY(0); } }
+        
+        .timeline-node { position: absolute; width: 26px; height: 26px; background: white; border: 6px solid var(--primary); border-radius: 50%; left: 30px; top: 8px; z-index: 2; transition: all 0.4s var(--smooth); box-shadow: 0 0 0 0 rgba(179,0,0,0.2); }
+        .timeline-card { background: rgba(255,255,255,0.7); padding: 30px; border-radius: 16px; border: 1px solid rgba(0,0,0,0.03); transition: all 0.4s var(--smooth); }
+        
+        .timeline-row:hover .timeline-node { background: var(--primary); transform: scale(1.3); box-shadow: 0 0 0 8px rgba(179,0,0,0.15); }
+        .timeline-row:hover .timeline-card { background: #ffffff; transform: translateX(6px); box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-left: 6px solid var(--primary); }
+        .timeline-tag-year { font-weight: 900; color: var(--primary); font-size: 16px; margin-bottom: 4px; display: inline-block; background: #ffe6e6; padding: 2px 12px; border-radius: 12px; }
+
+        /* ------------------------------------------------------------- */
+        /* Animated High-Performance Forms & Communication Nodes          */
+        /* ------------------------------------------------------------- */
+        .split-box { display: flex; gap: 50px; align-items: flex-start; }
+        .anchor-links-stack { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .anchor-node { padding: 25px; background: rgba(255,255,255,0.7); border-radius: 16px; border: 1px solid rgba(0,0,0,0.03); border-left: 6px solid var(--secondary); transition: all 0.4s var(--smooth); }
+        .anchor-node:hover { transform: translateX(8px); border-left-color: var(--primary); background: white; box-shadow: 0 15px 30px rgba(0,0,0,0.04); }
+        .anchor-node label { color: var(--primary); display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
+        .anchor-node p { font-size: 18px; font-weight: 700; color: var(--secondary); }
+
+        .interactive-form-card { flex: 1.3; background: #ffffff; padding: 50px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); }
+        .input-block { margin-bottom: 25px; position: relative; }
+        .input-block label { display: block; font-weight: 700; margin-bottom: 8px; color: var(--secondary); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-block input, .input-block textarea { 
+            width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: 10px; 
+            font-size: 16px; background: #f8fafc; transition: all 0.3s var(--smooth); 
+        }
+        .input-block input:focus, .input-block textarea:focus { border-color: var(--primary); background: #ffffff; outline: none; box-shadow: 0 0 0 5px rgba(179,0,0,0.07); }
+        .input-block textarea { height: 130px; resize: vertical; }
+
+        footer { background: #0f172a; color: #94a3b8; padding: 40px 20px; text-align: center; font-size: 14px; margin-top: 100px; border-top: 5px solid var(--primary); }
+
+        @media (max-width: 768px) {
+            .hero, .split-box { flex-direction: column; text-align: center; }
+            .hero { flex-direction: column-reverse; }
+            .hero h1 { font-size: 44px; }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .interactive-tabs-grid { grid-template-columns: 1fr; }
+            .timeline-container::before { left: 15px; }
+            .timeline-row { padding-left: 50px; }
+            .timeline-node { left: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-canvas">
+        <div class="fluid-orb orb-1"></div>
+        <div class="fluid-orb orb-2"></div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo"><a href="#" onclick="switchPane('home')">Prabhu <span>Sah</span></a></div>
+            <div class="nav-links">
+                <button id="nav-home" class="active" onclick="switchPane('home')">Overview</button>
+                <button id="nav-academic" onclick="switchPane('academic')">Education</button>
+                <button id="nav-journey" onclick="switchPane('journey')">Experience Timeline</button>
+                <button id="nav-contact" onclick="switchPane('contact')">Connect</button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="panel-home" class="page-section active-pane">
+        <header class="hero">
+            <div class="hero-content">
+                <span class="badge-interactive">Leader • Minister • Public Servant</span>
+                <h1>Prabhu Sah</h1>
+                <p style="color: #475569; font-size: 20px; font-weight: 500; max-width: 600px;">Distinguished representative tracking structural growth and institutional reform models across Nepal.</p>
+                
+                <div class="interactive-tabs-grid">
+                    <div class="tab-trigger-card" onclick="switchPane('contact')">
+                        <strong>Permanent Base</strong>
+                        <p>Rautahat, Nepal</p>
+                    </div>
+                    <div class="tab-trigger-card" onclick="switchPane('academic')">
+                        <strong>Highest Credential</strong>
+                        <p>Bachelor of Laws (B.L.)</p>
+                    </div>
+                    <div class="tab-trigger-card">
+                        <strong>Date of Birth</strong>
+                        <p>11 May, 1971</p>
+                    </div>
+                    <div class="tab-trigger-card">
+                        <strong>Languages Known</strong>
+                        <p>Bhojpuri, Nepali, Maithali, Hindi, English</p>
+                    </div>
+                </div>
+                
+                <button class="kinetic-btn" onclick="switchPane('journey')">Explore Experience Records</button>
+            </div>
+            
+            <div class="hero-image">
+                <div class="interactive-frame">
+                    <img id="leader-portrait" 
+                         src="https://imgur.com/aORK8kI.jpg" 
+                         alt="Prabhu Sah Portrait Photograph"
+                         onerror="handlePortraitError(this)">
+                </div>
+            </div>
+        </header>
+    </main>
+
+    <section id="panel-academic" class="page-section">
+        <h2 class="section-title">Academic <span>Qualifications</span></h2>
+        <div class="academic-mesh">
+            <div class="mesh-card" style="animation-delay: 0.1s;">
+                <div class="badge-icon">🎓</div>
+                <h3>S.L.C.</h3>
+                <p style="color: #64748b; margin-bottom: 15px;">School Leaving Certificate</p>
+                <span class="kinetic-btn" style="padding: 6px 20px; font-size: 14px; background: var(--primary);">Passed 1992</span>
+            </div>
+            <div class="mesh-card" style="animation-delay: 0.2s;">
+                <div class="badge-icon">📜</div>
+                <h3>I.L.</h3>
+                <p style="color: #64748b; margin-bottom: 15px;">Intermediate in Law</p>
+                <span class="kinetic-btn" style="padding: 6px 20px; font-size: 14px; background: var(--primary);">Passed 1995</span>
+            </div>
+            <div class="mesh-card" style="animation-delay: 0.3s;">
+                <div class="badge-icon">⚖️</div>
+                <h3>B.L.</h3>
+                <p style="color: #64748b; margin-bottom: 15px;">Bachelor of Laws</p>
+                <span class="kinetic-btn" style="padding: 6px 20px; font-size: 14px; background: var(--primary);">Passed 1999</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="panel-journey" class="page-section">
+        <h2 class="section-title">Political <span>Journey Log</span></h2>
+        <div class="timeline-container">
+            <div class="timeline-row" style="animation-delay: 0.05s;">
+                <div class="timeline-node"></div>
+                <div class="timeline-card">
+                    <span class="timeline-test-node timeline-tag-year">2014</span>
+                    <h3 style="margin-top: 5px;">Chairman — International Relation and Labour Committee</h3>
+                    <p style="color: #475569; margin-top: 5px;">Oversaw policy frameworks and statutory governance under Legislature-Parliament.</p>
+                </div>
+            </div>
+            <div class="timeline-row" style="animation-delay: 0.1s;">
+                <div class="timeline-node"></div>
+                <div class="timeline-card">
+                    <span class="timeline-tag-year">2014</span>
+                    <h3 style="margin-top: 5px;">Member — Constitution Drafting Committee</h3>
+                    <p style="color: #475569; margin-top: 5px;">Contributed directly to constitutional assembly system drafts.</p>
+                </div>
+            </div>
+            <div class="timeline-row" style="animation-delay: 0.15s;">
+                <div class="timeline-node"></div>
+                <div class="timeline-card">
+                    <span class="timeline-tag-year">2013</span>
+                    <h3 style="margin-top: 5px;">Re-elected — Constitutional Assembly Member</h3>
+                    <p style="color: #475569; margin-top: 5px;">Secured continuation mandate for core constitutional state mapping.</p>
+                </div>
+            </div>
+            <div class="timeline-row" style="animation-delay: 0.2s;">
+                <div class="timeline-node"></div>
+                <div class="timeline-card">
+                    <span class="timeline-tag-year">2011</span>
+                    <h3>Minister for Land Reform and Management</h3>
+                    <p style="color: #475569; margin-top: 5px;">Executed institutional cooperative land asset policies.</p>
+                </div>
+            </div>
+            <div class="timeline-row" style="animation-delay: 0.25s;">
+                <div class="timeline-node"></div>
+                <div class="timeline-card">
+                    <span class="timeline-tag-year">2010</span>
+                    <h3>Minister for Law and Justice</h3>
+                    <p style="color: #475569; margin-top: 5px;">Led legal advisory portfolios and state system governance layout alignments.</p>
+                </div>
+            </div>
+            <div class="timeline-row" style="animation-delay: 0.3s;">
+                <div class="timeline-node"></div>
+                <div class="timeline-card">
+                    <span class="timeline-tag-year">2008</span>
+                    <h3>Chairman — Judiciary System Committee</h3>
+                    <p style="color: #475569; margin-top: 5px;">Managed statutory assembly analysis setups under Constitutional Assembly frameworks.</p>
+                </div>
+            </div>
+            <div class="timeline-row" style="animation-delay: 0.35s;">
+                <div class="timeline-node"></div>
+                <div class="timeline-card">
+                    <span class="timeline-tag-year">2007</span>
+                    <h3>Elected — Constitutional Assembly Member</h3>
+                    <p style="color: #475569; margin-top: 5px;">Elected into historic assemblies targeting constitutional state transformations.</p>
+                </div>
+            </div>
+            <div class="timeline-row" style="animation-delay: 0.4s;">
+                <div class="timeline-node"></div>
+                <div class="timeline-card">
+                    <span class="timeline-tag-year">2006</span>
+                    <h3>Appointed — Interim Parliament Member</h3>
+                    <p style="color: #475569; margin-top: 5px;">Entered parliamentary administration to steer key state transition modules.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="panel-contact" class="page-section">
+        <h2 class="section-title">Secure <span>Communication Hub</span></h2>
+        <div class="split-box">
+            <div class="anchor-links-stack">
+                <div class="anchor-node">
+                    <label>Permanent Address</label>
+                    <p>Maulapur, 05 Pataura, Rautahat, Nepal</p>
+                </div>
+                <div class="anchor-node">
+                    <label>Father's Name</label>
+                    <p>Late Babulal Sah</p>
+                </div>
+                <div class="anchor-node">
+                    <label>Direct Phone Line</label>
+                    <p>00977-9851012149</p>
+                </div>
+                <div class="anchor-node">
+                    <label>Official Email</label>
+                    <p>prabhusah31@gmail.com</p>
+                </div>
+            </div>
+            
+            <div class="interactive-form-card">
+                <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Transmission secured.');">
+                    <div class="input-block">
+                        <label for="usr-name">Full Name</label>
+                        <input type="text" id="usr-name" required placeholder="Your Name">
+                    </div>
+                    <div class="input-block">
+                        <label for="usr-email">Email Address</label>
+                        <input type="email" id="usr-email" required placeholder="name@example.com">
+                    </div>
+                    <div class="input-block">
+                        <label for="usr-msg">Message Brief</label>
+                        <textarea id="usr-msg" required placeholder="Enter communication structural notes..."></textarea>
+                    </div>
+                    <button type="submit" class="kinetic-btn" style="width: 100%;">Transmit Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Prabhu Sah. Official Biographical Digital Interface Asset.</p>
+    </footer>
+
+    <script>
+        // Multi-tier absolute asset error handling
+        let loadCounter = 0;
+        function handlePortraitError(imgNode) {
+            loadCounter++;
+            if(loadCounter === 1) {
+                imgNode.src = "https://en.setopati.com/uploads/posts/Prabhu-Sah1665742670.png";
+            } else if(loadCounter === 2) {
+                imgNode.src = "https://upload.wikimedia.org/wikipedia/commons/e/ee/Prabhu_Sah_%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%AD%E0%A5%81_%E0%A4%B8%E0%A4%BE%E0%A4%B9.jpg";
+            } else {
+                imgNode.style.display = "none";
+            }
+        }
+
+        // Asynchronous UI Pane Engine with Kinetic Accelerations
+        function switchPane(paneKey) {
+            const targets = document.querySelectorAll('.page-section');
+            targets.forEach(panel => {
+                panel.classList.remove('active-pane');
+            });
+
+            const navActionButtons = document.querySelectorAll('.nav-links button');
+            navActionButtons.forEach(btn => btn.classList.remove('active'));
+
+            const specificPanel = document.getElementById(`panel-${paneKey}`);
+            if(specificPanel) {
+                specificPanel.classList.add('active-pane');
+                // Hardware visual retrigger optimization
+                specificPanel.style.opacity = '0';
+                specificPanel.style.transform = 'scale(0.97) translateY(15px)';
+                setTimeout(() => {
+                    specificPanel.style.opacity = '1';
+                    specificPanel.style.transform = 'scale(1) translateY(0)';
+                }, 40);
+            }
+
+            const targetedNav = document.getElementById(`nav-${paneKey}`);
+            if(targetedNav) {
+                targetedNav.classList.add('active');
+            }
+
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</body>
+</html>
