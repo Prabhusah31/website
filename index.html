@@ -49,6 +49,7 @@
         .nav-brand a { font-size: 22px; font-weight: 800; color: var(--slate-dark); text-decoration: none; letter-spacing: -0.5px; }
         .nav-brand a span { color: var(--brand-primary); }
         
+        .nav-right-stack { display: flex; align-items: center; gap: 16px; }
         .nav-menu { display: flex; list-style: none; gap: 4px; background: rgba(30,41,59,0.05); padding: 4px; border-radius: 12px; flex-wrap: wrap; }
         .nav-menu button { 
             background: none; border: none; cursor: pointer; font-size: 14px; color: var(--body-text); font-weight: 600; 
@@ -56,6 +57,11 @@
         }
         .nav-menu button:hover { color: var(--brand-primary); }
         .nav-menu button.active { background: #ffffff; color: var(--brand-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+        /* Premium Language Switch Toggle */
+        .lang-switch-box { display: flex; background: var(--slate-dark); padding: 2px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .lang-btn { background: none; border: none; color: #94a3b8; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .lang-btn.active { background: var(--brand-primary); color: #ffffff; }
 
         /* Dynamic Section Content Box Router */
         .viewport-section { 
@@ -155,6 +161,7 @@
             .hero-layout { flex-direction: column-reverse; }
             .hero-details h1 { font-size: 38px; }
             .nav-inner { flex-direction: column; gap: 15px; }
+            .nav-right-stack { flex-direction: column; width: 100%; }
             .meta-data-grid, .social-matrix-stack { grid-template-columns: 1fr; }
             .timeline-vert-wrapper::before { left: 15px; }
             .timeline-history-row { padding-left: 45px; }
@@ -172,11 +179,17 @@
     <nav>
         <div class="nav-inner">
             <div class="nav-brand"><a href="#" onclick="routePane('home')">Prabhu<span>Sah</span></a></div>
-            <div class="nav-menu">
-                <button id="nav-home" class="active" onclick="routePane('home')">Overview</button>
-                <button id="nav-academic" onclick="routePane('academic')">Education</button>
-                <button id="nav-journey" onclick="routePane('journey')">Timeline</button>
-                <button id="nav-contact" onclick="routePane('contact')">Connect</button>
+            <div class="nav-right-stack">
+                <div class="nav-menu">
+                    <button id="nav-home" class="active" onclick="routePane('home')" data-lang="nav_overview">Overview</button>
+                    <button id="nav-academic" onclick="routePane('academic')" data-lang="nav_education">Education</button>
+                    <button id="nav-journey" onclick="routePane('journey')" data-lang="nav_timeline">Timeline</button>
+                    <button id="nav-contact" onclick="routePane('contact')" data-lang="nav_connect">Connect</button>
+                </div>
+                <div class="lang-switch-box">
+                    <button id="lang-en" class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                    <button id="lang-ne" class="lang-btn" onclick="setLanguage('ne')">ने</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -184,30 +197,30 @@
     <main id="panel-home" class="viewport-section active-pane">
         <header class="hero-layout">
             <div class="hero-details">
-                <span class="profile-tagline">Public Representative</span>
-                <h1>Prabhu Sah</h1>
-                <p style="color: #475569; font-size: 18px; font-weight: 500; max-width: 580px;">Dedicated political leader driving regulatory updates, structural governance, and public service management frameworks.</p>
+                <span class="profile-tagline" data-lang="profile_tagline">Public Representative</span>
+                <h1 data-lang="hero_title">Prabhu Sah</h1>
+                <p style="color: #475569; font-size: 18px; font-weight: 500; max-width: 580px;" data-lang="hero_desc">Dedicated political leader driving regulatory updates, structural governance, and public service management frameworks.</p>
                 
                 <div class="meta-data-grid">
                     <div class="meta-data-node" onclick="routePane('contact')">
-                        <strong>Permanent Address</strong>
-                        <p>Maulapur, Rautahat</p>
+                        <strong data-lang="meta_address_title">Permanent Address</strong>
+                        <p data-lang="meta_address_val">Maulapur, Rautahat</p>
                     </div>
                     <div class="meta-data-node" onclick="routePane('journey')">
-                        <strong>Experience Track</strong>
-                        <p>Former Government Minister</p>
+                        <strong data-lang="meta_track_title">Experience Track</strong>
+                        <p data-lang="meta_track_val">Former Government Minister</p>
                     </div>
                     <div class="meta-data-node">
-                        <strong>Date of Birth</strong>
-                        <p>11 May, 1971</p>
+                        <strong data-lang="meta_dob_title">Date of Birth</strong>
+                        <p data-lang="meta_dob_val">11 May, 1971</p>
                     </div>
                     <div class="meta-data-node">
-                        <strong>Languages Spoken</strong>
-                        <p>Bhojpuri, Nepali, Maithali, Hindi, English</p>
+                        <strong data-lang="meta_lang_title">Languages Spoken</strong>
+                        <p data-lang="meta_lang_val">Bhojpuri, Nepali, Maithali, Hindi, English</p>
                     </div>
                 </div>
                 
-                <button class="action-link-node" onclick="routePane('journey')">Explore History Timeline</button>
+                <button class="action-link-node" onclick="routePane('journey')" data-lang="hero_btn">Explore History Timeline</button>
             </div>
             
             <div class="hero-media">
@@ -222,101 +235,101 @@
     </main>
 
     <section id="panel-academic" class="viewport-section">
-        <h2 class="component-header-title">Academic <span>Qualifications</span></h2>
+        <h2 class="component-header-title"><span data-lang="edu_title_main">Academic</span> <span data-lang="edu_title_sub">Qualifications</span></h2>
         <div class="grid-row-layout">
             <div class="mesh-item-card" style="animation-delay: 0.1s;">
                 <div class="vector-badge">🎓</div>
                 <h3>S.L.C.</h3>
-                <p style="color: #64748b; margin-bottom: 15px; font-size: 14px;">School Leaving Certificate</p>
-                <span class="action-link-node" style="padding: 6px 16px; font-size: 13px; background: var(--brand-primary);">Passed 1992</span>
+                <p style="color: #64748b; margin-bottom: 15px; font-size: 14px;" data-lang="slc_desc">School Leaving Certificate</p>
+                <span class="action-link-node" style="padding: 6px 16px; font-size: 13px; background: var(--brand-primary);" data-lang="passed_1992">Passed 1992</span>
             </div>
             <div class="mesh-item-card" style="animation-delay: 0.2s;">
                 <div class="vector-badge">📜</div>
                 <h3>I.L.</h3>
-                <p style="color: #64748b; margin-bottom: 15px; font-size: 14px;">Intermediate in Law</p>
-                <span class="action-link-node" style="padding: 6px 16px; font-size: 13px; background: var(--brand-primary);">Passed 1995</span>
+                <p style="color: #64748b; margin-bottom: 15px; font-size: 14px;" data-lang="il_desc">Intermediate in Law</p>
+                <span class="action-link-node" style="padding: 6px 16px; font-size: 13px; background: var(--brand-primary);" data-lang="passed_1995">Passed 1995</span>
             </div>
             <div class="mesh-item-card" style="animation-delay: 0.3s;">
                 <div class="vector-badge">⚖️</div>
                 <h3>B.L.</h3>
-                <p style="color: #64748b; margin-bottom: 15px; font-size: 14px;">Bachelor of Laws</p>
-                <span class="action-link-node" style="padding: 6px 16px; font-size: 13px; background: var(--brand-primary);">Passed 1999</span>
+                <p style="color: #64748b; margin-bottom: 15px; font-size: 14px;" data-lang="bl_desc">Bachelor of Laws</p>
+                <span class="action-link-node" style="padding: 6px 16px; font-size: 13px; background: var(--brand-primary);" data-lang="passed_1999">Passed 1999</span>
             </div>
         </div>
     </section>
 
     <section id="panel-journey" class="viewport-section">
-        <h2 class="component-header-title">Political <span>Journey & Tenure</span></h2>
+        <h2 class="component-header-title"><span data-lang="time_title_main">Political</span> <span data-lang="time_title_sub">Journey & Tenure</span></h2>
         <div class="timeline-vert-wrapper">
             <div class="timeline-history-row" style="animation-delay: 0.05s;">
                 <div class="timeline-axis-node"></div>
                 <div class="timeline-data-card">
                     <span class="timeline-date-tag">2014</span>
-                    <h3 style="margin-top: 4px; font-size: 18px;">Chairman — International Relation and Labour Committee</h3>
-                    <p style="color: #475569; margin-top: 4px; font-size: 14px;">Led policy adjustments and strategic operations within Legislature-Parliament.</p>
+                    <h3 style="margin-top: 4px; font-size: 18px;" data-lang="t1_title">Chairman — International Relation and Labour Committee</h3>
+                    <p style="color: #475569; margin-top: 4px; font-size: 14px;" data-lang="t1_desc">Led policy adjustments and strategic operations within Legislature-Parliament.</p>
                 </div>
             </div>
             <div class="timeline-history-row" style="animation-delay: 0.1s;">
                 <div class="timeline-axis-node"></div>
                 <div class="timeline-data-card">
                     <span class="timeline-date-tag">2014</span>
-                    <h3 style="margin-top: 4px; font-size: 18px;">Member — Constitution Drafting Committee</h3>
-                    <p style="color: #475569; margin-top: 4px; font-size: 14px;">Contributed directly to state constitutional design blueprints under the CA framework.</p>
+                    <h3 style="margin-top: 4px; font-size: 18px;" data-lang="t2_title">Member — Constitution Drafting Committee</h3>
+                    <p style="color: #475569; margin-top: 4px; font-size: 14px;" data-lang="t2_desc">Contributed directly to state constitutional design blueprints under the CA framework.</p>
                 </div>
             </div>
             <div class="timeline-history-row" style="animation-delay: 0.15s;">
                 <div class="timeline-axis-node"></div>
                 <div class="timeline-data-card">
                     <span class="timeline-date-tag">2013</span>
-                    <h3 style="margin-top: 4px; font-size: 18px;">Re-elected — Constitutional Assembly Member</h3>
-                    <p style="color: #475569; margin-top: 4px; font-size: 14px;">Secured extended parliamentary mandate to organize regional balance systems.</p>
+                    <h3 style="margin-top: 4px; font-size: 18px;" data-lang="t3_title">Re-elected — Constitutional Assembly Member</h3>
+                    <p style="color: #475569; margin-top: 4px; font-size: 14px;" data-lang="t3_desc">Secured extended parliamentary mandate to organize regional balance systems.</p>
                 </div>
             </div>
             <div class="timeline-history-row" style="animation-delay: 0.2s;">
                 <div class="timeline-axis-node"></div>
                 <div class="timeline-data-card">
                     <span class="timeline-date-tag">2011</span>
-                    <h3 style="margin-top: 4px; font-size: 18px;">Minister for Land Reform and Management</h3>
-                    <p style="color: #475569; margin-top: 4px; font-size: 14px;">Executed structural property registries and administrative update frameworks.</p>
+                    <h3 style="margin-top: 4px; font-size: 18px;" data-lang="t4_title">Minister for Land Reform and Management</h3>
+                    <p style="color: #475569; margin-top: 4px; font-size: 14px;" data-lang="t4_desc">Executed structural property registries and administrative update frameworks.</p>
                 </div>
             </div>
             <div class="timeline-history-row" style="animation-delay: 0.25s;">
                 <div class="timeline-axis-node"></div>
                 <div class="timeline-data-card">
                     <span class="timeline-date-tag">2010</span>
-                    <h3 style="margin-top: 4px; font-size: 18px;">Minister for Law and Justice</h3>
-                    <p style="color: #475569; margin-top: 4px; font-size: 14px;">Headed legal advisory programs and institutional framework designs for the cabinet.</p>
+                    <h3 style="margin-top: 4px; font-size: 18px;" data-lang="t5_title">Minister for Law and Justice</h3>
+                    <p style="color: #475569; margin-top: 4px; font-size: 14px;" data-lang="t5_desc">Headed legal advisory programs and institutional framework designs for the cabinet.</p>
                 </div>
             </div>
             <div class="timeline-history-row" style="animation-delay: 0.3s;">
                 <div class="timeline-axis-node"></div>
                 <div class="timeline-data-card">
                     <span class="timeline-date-tag">2008</span>
-                    <h3 style="margin-top: 4px; font-size: 18px;">Chairman — Judiciary System Committee</h3>
-                    <p style="color: #475569; margin-top: 4px; font-size: 14px;">Supervised regulatory legal updates within the foundational Constitutional Assembly.</p>
+                    <h3 style="margin-top: 4px; font-size: 18px;" data-lang="t6_title">Chairman — Judiciary System Committee</h3>
+                    <p style="color: #475569; margin-top: 4px; font-size: 14px;" data-lang="t6_desc">Supervised regulatory legal updates within the foundational Constitutional Assembly.</p>
                 </div>
             </div>
             <div class="timeline-history-row" style="animation-delay: 0.35s;">
                 <div class="timeline-axis-node"></div>
                 <div class="timeline-data-card">
                     <span class="timeline-date-tag">2007</span>
-                    <h3 style="margin-top: 4px; font-size: 18px;">Elected — Constitutional Assembly Member</h3>
-                    <p style="color: #475569; margin-top: 4px; font-size: 14px;">Directly chosen by the public to build federal constitutional parameters.</p>
+                    <h3 style="margin-top: 4px; font-size: 18px;" data-lang="t7_title">Elected — Constitutional Assembly Member</h3>
+                    <p style="color: #475569; margin-top: 4px; font-size: 14px;" data-lang="t7_desc">Directly chosen by the public to build federal constitutional parameters.</p>
                 </div>
             </div>
             <div class="timeline-history-row" style="animation-delay: 0.4s;">
                 <div class="timeline-axis-node"></div>
                 <div class="timeline-data-card">
                     <span class="timeline-date-tag">2006</span>
-                    <h3 style="margin-top: 4px; font-size: 18px;">Appointed — Interim Parliament Member</h3>
-                    <p style="color: #475569; margin-top: 4px; font-size: 14px;">Served inside temporary parliamentary matrices during historic transitional phases.</p>
+                    <h3 style="margin-top: 4px; font-size: 18px;" data-lang="t8_title">Appointed — Interim Parliament Member</h3>
+                    <p style="color: #475569; margin-top: 4px; font-size: 14px;" data-lang="t8_desc">Served inside temporary parliamentary matrices during historic transitional phases.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="panel-contact" class="viewport-section">
-        <h2 class="component-header-title">Secure <span>Communication Portal</span></h2>
+        <h2 class="component-header-title"><span data-lang="conn_title_main">Secure</span> <span data-lang="conn_title_sub">Communication Portal</span></h2>
         <div class="flex-box-split">
             <div class="contact-anchors-list">
                 
@@ -336,15 +349,15 @@
                 </div>
 
                 <div class="anchor-card-item">
-                    <label>Permanent Address</label>
-                    <p>Maulapur, 05 Pataura, Rautahat, Nepal</p>
+                    <label data-lang="meta_address_title">Permanent Address</label>
+                    <p data-lang="meta_address_val">Maulapur, 05 Pataura, Rautahat, Nepal</p>
                 </div>
                 <div class="anchor-card-item">
-                    <label>Direct Secure Line</label>
+                    <label data-lang="c_line">Direct Secure Line</label>
                     <p>00977-9851012149</p>
                 </div>
                 <div class="anchor-card-item">
-                    <label>Official Email</label>
+                    <label data-lang="c_email">Official Email</label>
                     <p>prabhusah31@gmail.com</p>
                 </div>
             </div>
@@ -352,29 +365,105 @@
             <div class="form-panel-sheet">
                 <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Message successfully sent.');">
                     <div class="input-group-row">
-                        <label for="form-name">Full Name</label>
+                        <label for="form-name" data-lang="f_name">Full Name</label>
                         <input type="text" id="form-name" required placeholder="Your Name">
                     </div>
                     <div class="input-group-row">
-                        <label for="form-email">Email Address</label>
+                        <label for="form-email" data-lang="f_email">Email Address</label>
                         <input type="email" id="form-email" required placeholder="name@example.com">
                     </div>
                     <div class="input-group-row">
-                        <label for="form-msg">Message Content</label>
-                        <textarea id="form-msg" required placeholder="Type your communication brief here..."></textarea>
+                        <label for="form-msg" data-lang="f_msg">Message Content</label>
+                        <textarea id="form-msg" required placeholder="Type your message here..."></textarea>
                     </div>
-                    <button type="submit" class="action-link-node" style="width: 100%;">Send Message</button>
+                    <button type="submit" class="action-link-node" style="width: 100%;" data-lang="f_btn">Send Message</button>
                 </form>
             </div>
         </div>
     </section>
 
     <footer>
-        <p style="font-size: 12px; font-weight: 600;">&copy; 2026 Prabhu Sah. All Rights Reserved.</p>
-        <p class="footer-credits">Web Developer: <span>Saiman Sah</span></p>
+        <p style="font-size: 12px; font-weight: 600;"><span data-lang="copy_text">&copy; 2026 Prabhu Sah. All Rights Reserved.</span></p>
+        <p class="footer-credits"><span data-lang="dev_text">Web Developer:</span> <span>Saiman Sah</span></p>
     </footer>
 
     <script>
+        // Human-crafted Static Data Multilingual Dictionary
+        const dictionary = {
+            en: {
+                nav_overview: "Overview", nav_education: "Education", nav_timeline: "Timeline", nav_connect: "Connect",
+                profile_tagline: "Public Representative", hero_title: "Prabhu Sah",
+                hero_desc: "Dedicated political leader driving regulatory updates, structural governance, and public service management frameworks.",
+                meta_address_title: "Permanent Address", meta_address_val: "Maulapur, Rautahat, Nepal",
+                meta_track_title: "Experience Track", meta_track_val: "Former Government Minister",
+                meta_dob_title: "Date of Birth", meta_dob_val: "11 May, 1971",
+                meta_lang_title: "Languages Spoken", meta_lang_val: "Bhojpuri, Nepali, Maithali, Hindi, English",
+                hero_btn: "Explore History Timeline",
+                edu_title_main: "Academic", edu_title_sub: "Qualifications",
+                slc_desc: "School Leaving Certificate", passed_1992: "Passed 1992",
+                il_desc: "Intermediate in Law", passed_1995: "Passed 1995",
+                bl_desc: "Bachelor of Laws", passed_1999: "Passed 1999",
+                time_title_main: "Political", time_title_sub: "Journey & Tenure",
+                t1_title: "Chairman — International Relation and Labour Committee", t1_desc: "Led policy adjustments and strategic operations within Legislature-Parliament.",
+                t2_title: "Member — Constitution Drafting Committee", t2_desc: "Contributed directly to state constitutional design blueprints under the CA framework.",
+                t3_title: "Re-elected — Constitutional Assembly Member", t3_desc: "Secured extended parliamentary mandate to organize regional balance systems.",
+                t4_title: "Minister for Land Reform and Management", t4_desc: "Executed structural property registries and administrative update frameworks.",
+                t5_title: "Minister for Law and Justice", t5_desc: "Headed legal advisory programs and institutional framework designs for the cabinet.",
+                t6_title: "Chairman — Judiciary System Committee", t6_desc: "Supervised regulatory legal updates within the foundational Constitutional Assembly.",
+                t7_title: "Elected — Constitutional Assembly Member", t7_desc: "Directly chosen by the public to build federal constitutional parameters.",
+                t8_title: "Appointed — Interim Parliament Member", t8_desc: "Served inside temporary parliamentary matrices during historic transitional phases.",
+                conn_title_main: "Secure", conn_title_sub: "Communication Portal",
+                c_line: "Direct Secure Line", c_email: "Official Email",
+                f_name: "Full Name", f_email: "Email Address", f_msg: "Message Content", f_btn: "Send Message",
+                copy_text: "© 2026 Prabhu Sah. All Rights Reserved.", dev_text: "Web Developer:"
+            },
+            ne: {
+                nav_overview: "अवलोकन", nav_education: "शिक्षा", nav_timeline: "कार्यकाल", nav_connect: "सम्पर्क",
+                profile_tagline: "जनप्रतिनिधि", hero_title: "प्रभु साह",
+                hero_desc: "नियमनकारी अद्यावधिकहरू, संरचनात्मक सुशासन, र सार्वजनिक सेवा व्यवस्थापन ढाँचाहरू चलाउने प्रतिबद्ध राजनीतिक नेता।",
+                meta_address_title: "स्थायी ठेगाना", meta_address_val: "मौलापुर, रौतहट, नेपाल",
+                meta_track_title: "अनुभव ट्र्याक", meta_track_val: "पूर्व नेपाल सरकार मन्त्री",
+                meta_dob_title: "जन्ममिति", meta_dob_val: "११ मे, १९७१",
+                meta_lang_title: "बोलिने भाषाहरू", meta_lang_val: "भोजपुरी, नेपाली, मैथिली, हिन्दी, अंग्रेजी",
+                hero_btn: "राजनीतिक इतिहास हेर्नुहोस्",
+                edu_title_main: "शैक्षिक", edu_title_sub: "योग्यताहरू",
+                slc_desc: "प्रवेशिका परीक्षा (एस.एल.सी.)", passed_1992: "उत्तीर्ण १९९२",
+                il_desc: "कानूनमा प्रमाणपत्र (आई.एल.)", passed_1995: "उत्तीर्ण १९९५",
+                bl_desc: "कानूनमा स्नातक (बी.एल.)", passed_1999: "उत्तीर्ण १९९९",
+                time_title_main: "राजनीतिक", time_title_sub: "यात्रा र कार्यकाल",
+                t1_title: "सभापति — अन्तर्राष्ट्रिय सम्बन्ध र श्रम समिति", t1_desc: "व्यवस्थापिका-संसद भित्र नीति समायोजन र रणनीतिक सञ्चालनको नेतृत्व।",
+                t2_title: "सदस्य — संविधान मस्यौदा समिति", t2_desc: "संविधान सभा ढाँचा अन्तर्गत राज्यको संवैधानिक मस्यौदा ब्लुप्रिन्टमा प्रत्यक्ष योगदान।",
+                t3_title: "पुनः निर्वाचित — संविधान सभा सदस्य", t3_desc: "क्षेत्रीय सन्तुलन प्रणालीलाई व्यवस्थित गर्न विस्तारित संसदीय जनादेश प्राप्त।",
+                t4_title: "भूमि सुधार तथा व्यवस्थापन मन्त्री", t4_desc: "संरचनात्मक जग्गा दर्ता र प्रशासनिक सुधार कार्यहरू कार्यान्वयन।",
+                t5_title: "कानून तथा न्याय मन्त्री", t5_desc: "मन्त्रिपरिषद्का लागि कानूनी सल्लाहकार कार्यक्रम र संस्थागत सुशासनको नेतृत्व।",
+                t6_title: "अध्यक्ष — न्यायप्रणाली समिति", t6_desc: "आधारभूत संविधान सभा भित्र नियमनकारी कानूनी अद्यावधिकहरूको निरीक्षण।",
+                t7_title: "निर्वाचित — संविधान सभा सदस्य", t7_desc: "संवैधानिक राज्य रूपान्तरणका मापदण्डहरू निर्माण गर्न जनताद्वारा प्रत्यक्ष निर्वाचित।",
+                t8_title: "मनोनित — अन्तरिम व्यवस्थापिका संसद सदस्य", t8_desc: "ऐतिहासिक संक्रमणकालीन चरणहरूमा अस्थायी संसदीय व्यवस्था भित्र सेवा।",
+                conn_title_main: "सुरक्षित", conn_title_sub: "सम्पर्क पोर्टल",
+                c_line: "प्रत्यक्ष सुरक्षित लाइन", c_email: "आधिकारिक इमेल",
+                f_name: "पूरा नाम", f_email: "इमेल ठेगाना", f_msg: "सन्देशको विवरण", f_btn: "सन्देश पठाउनुहोस्",
+                copy_text: "© २०२६ प्रभु साह। सबै अधिकार सुरक्षित।", dev_text: "वेब विकासकर्ता:"
+            }
+        };
+
+        // Switch Language State Logic Controller
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (dictionary[lang] && dictionary[lang][key]) {
+                    element.style.opacity = '0';
+                    setTimeout(() => {
+                        element.innerText = dictionary[lang][key];
+                        element.style.opacity = '1';
+                    }, 150);
+                }
+            });
+
+            // Toggle Class Active Highlights
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`lang-${lang}`).classList.add('active');
+        }
+
         // Image asset fallbacks
         let imageFails = 0;
         function cascadeFallbackLinks(imageNode) {
